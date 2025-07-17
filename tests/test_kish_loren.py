@@ -14,6 +14,8 @@ def test_start_page():
 
 @allure.title("Проверка названия блюда")
 def test_name_recipe():
+    driver = webdriver.Chrome()
+    driver.get("https://rpaqp-ultimate-tester.github.io/Kish_Loren.html")
     assert driver.find_element(By.TAG_NAME, "h1").text == "Пирог с лососем и сыром (киш лорен)"
 
     with allure.step("Проверка ингридиентов"):
