@@ -20,8 +20,8 @@ def test_name_recipe():
 
     with allure.step("Проверка ингридиентов"):
 
-    assert driver.find_element(By.TAG_NAME, "h2").text == "Ингридиенты на форму диаметром 26-28см:"
+        assert driver.find_element(By.TAG_NAME, "h2").text == "Ингридиенты на форму диаметром 26-28см:"
 
     with allure.step("Ингридиенты для теста"):
 
-    assert driver.find_element(By.TAG_NAME, "h3").text == "Для теста:"
+        assert driver.find_element(By.TAG_NAME, "h3").text == "Для теста:"
