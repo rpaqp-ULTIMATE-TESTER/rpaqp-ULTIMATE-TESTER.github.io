@@ -1,0 +1,64 @@
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from pytest_check import check
+
+URL = "https://slqamsk.github.io/tmp/xPath02.html"
+def test_titles():
+   dr = webdriver.Chrome()
+   dr.get(URL)
+   with check:
+      assert dr.title == "Пиццерия - Оформление заказа"
+      h1 = dr.find_element(By.XPATH, "//h1").text
+   with check:
+      assert h1 == "Пиццерия \"Итальянский уголок\""
+      time.sleep(2)
+
+def test_base_menu():
+   dr = webdriver.Chrome()
+   dr.get(URL)
+   with check:
+      assert dr.find_element(By.XPATH, "//h3[.='Маргарита']")
+   with check:
+      assert dr.find_element(By.XPATH, "//h3[.='Четыре сыра']")
+   with check:
+      assert dr.find_element(By.XPATH, "//h3[.='Вегетарианская']")
+
+def test_pizza_of_the_day():
+   dr = webdriver.Chrome()
+   dr.get(URL)
+   el = dr.find_element(By.XPATH,
+                   "//h3[contains(.,'(пицца дня)')]")
+   with check:
+      assert el
+   with check:
+      assert "Маргарита" not in el.text
+   with check:
+      assert "Четыре сыра" in el.text # создание ошибки для того, что бы посмотреть тест.
+   with check:
+      assert "Вегетарианская" not in el.text
+
+def test_order_base_pizza():
+   dr = webdriver.Chrome()
+   dr.get(URL)
+   element_1 = dr.find_element(By.XPATH, "//h3[.='Маргарита']/parent::*//child::button")
+   element_1.click()
+   time.sleep(1)
+   element_2 = dr.find_element(By.XPATH, "//h3[.='Четыре сыра']/parent::*//child::button")
+   element_2.click()
+   time.sleep(1)
+   element_3 = dr.find_element(By.XPATH, "//h3[.='Вегетарианская']/parent::*//child::button")
+   element_3.click()
+
+   dr.find_element(By.XPATH,"//input[@id='customer-name']").send_keys("Дмитрий Андреевич")
+   dr.find_element(By.XPATH, "//input[@id='customer-email']").send_keys("rpaqp@mail.ru")
+   dr.find_element(By.XPATH, "//button[@id='place-order']").click()
+   time.sleep(5)
+   order = dr.find_element(By.XPATH, "//div[@id='order-info']")
+
+   with check:
+      assert "Дмитрий Андреевич" in order.text
+   with check:
+      assert "rpaqp@mail.ru" in order.text
+   with check:
+      assert "Вегетарианская" and "Четыре сыра" and "Маргарита" in order.text
