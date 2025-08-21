@@ -64,13 +64,22 @@ def test_order_base_pizza():
         with allure.step("Проверка состава заказа"):
             assert "Вегетарианская" and "Четыре сыра" and "Маргарита" in order.text
 
+    with allure.step("Поиск номера заказа"):
+        el_number = dr.find_element(By.XPATH, "//strong[.='Номер заказа:']/parent::p")
+        txt_order_number = el_number.text.replace("Номер заказа: #", "")
+
     with check:
         with allure.step("Проверка присвоения номера заказа"):
-            assert "Номер заказа:" in order.text
+            assert txt_order_number in order.text
 
-    el_number = dr.find_element(By.XPATH, "//strong[.='Номер заказа:']/parent::p")
-    print (el_number.text)
-    print(el_number.text.replace("Номер заказа: #", ""))
-    # В переменно txt_order_number сохранили номер заказа
-    txt_order_number = el_number.text.replace("Номер заказа: #", "")
+    with allure.step("Переход в историю заказов"):
+        dr.find_element(By.XPATH, "//a[@class='btn']").click()
+        time.sleep(2)
 
+    with allure.step("Поиск номера заказа в истории"):
+        history_number = dr.find_element(By.XPATH, "//div[@id='orders-list']/child::div/child::h3").text
+        txt_history_number = history_number.replace("Заказ #", "")
+
+    with check:
+        with allure.step("Проверка отображения номера заказа в истории"):
+            assert txt_order_number in txt_history_number
