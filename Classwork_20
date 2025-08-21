@@ -1,3 +1,4 @@
+#test_pizza_main.py
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -24,11 +25,11 @@ def test_titles():
 
 @allure.title("Проверка заказа пиццы")
 def test_order_base_pizza():
-   with allure.step("Открытие страницы"):
+    with allure.step("Открытие страницы"):
         dr = webdriver.Chrome()
         dr.get(URL)
 
-   with allure.step("Поиск и добавление пиццы в заказ"):
+    with allure.step("Поиск и добавление пиццы в заказ"):
         element_1 = dr.find_element(By.XPATH, "//h3[.='Маргарита']/parent::*//child::button")
         element_1.click()
         time.sleep(1)
@@ -52,17 +53,24 @@ def test_order_base_pizza():
 
     with check:
         with allure.step("Проверка отображения имени и фамилии клиента"):
-        order = dr.find_element(By.XPATH, "//div[@id='order-info']")
-        assert "Дмитрий Андреевич" in order.text
+            order = dr.find_element(By.XPATH, "//div[@id='order-info']")
+            assert "Дмитрий Андреевич" in order.text
 
     with check:
         with allure.step("Проверка отображения почты клиента"):
-        assert "rpaqp@mail.ru" in order.text
+            assert "rpaqp@mail.ru" in order.text
 
     with check:
         with allure.step("Проверка состава заказа"):
-        assert "Вегетарианская" and "Четыре сыра" and "Маргарита" in order.text
+            assert "Вегетарианская" and "Четыре сыра" and "Маргарита" in order.text
 
     with check:
         with allure.step("Проверка присвоения номера заказа"):
-        assert "Номер заказа:" in order.text
+            assert "Номер заказа:" in order.text
+
+    el_number = dr.find_element(By.XPATH, "//strong[.='Номер заказа:']/parent::p")
+    print (el_number.text)
+    print(el_number.text.replace("Номер заказа: #", ""))
+    # В переменно txt_order_number сохранили номер заказа
+    txt_order_number = el_number.text.replace("Номер заказа: #", "")
+
