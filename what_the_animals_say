@@ -1,0 +1,25 @@
+# 3. В рамках повторения ООП напишите программу на Python в которой создайте класс Animal,
+# у которого будет поле (свойство) name - имя животного, метод voice() - голос животного
+# (просто печатайте в консоль), наследуйте от него 2 класса: Cat и Dog, у которых
+# переопределите метод voice().
+
+
+class animals:
+    def __init__(self, name):
+        self.name = name
+    def voice(self):
+        return "Звук животного"
+
+class dog(animals):
+    def voice(self):
+        return f"{self.name} Гав!"
+
+class cat(animals):
+    def voice(self):
+        return f"{self.name} Мяу"
+
+dog = dog("Лилит")
+cat = cat("Муся")
+
+print(dog.voice())
+print(cat.voice())
