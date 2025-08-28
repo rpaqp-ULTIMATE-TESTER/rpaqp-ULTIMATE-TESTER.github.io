@@ -1,0 +1,44 @@
+import math
+from abc import ABC, abstractmethod
+
+
+class Shape(ABC):
+   def __init__(self, s):
+       self.size = s
+
+   def resize(self, x):
+       # Если мы передали отрицательное значение, то мы меняем его на положительное
+       if x >= 0:
+           self.size = self.size * x
+       else:
+           self.size = -self.size * x
+
+   @abstractmethod
+   def area(self):
+       ...
+
+   @abstractmethod
+   def perimetr(self):
+       ...
+
+class Square(Shape):
+
+    def area(self):
+        return self.size ** 2
+
+    def perimetr(self):
+        return self.size * 4
+
+class Circle(Shape):
+    @property
+    def area(self):
+        return self.size ** 2 * math.pi
+
+    @property
+    def perimetr(self):
+        return 2 * math.pi * self.size
+
+c = Circle(5)
+s =Square(7)
+print(c.area)
+print(s.perimetr())
