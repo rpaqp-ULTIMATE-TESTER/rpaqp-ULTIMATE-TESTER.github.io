@@ -1,0 +1,62 @@
+import allure
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+URL = "https://online.metro-cc.ru/"
+
+def test_title():
+    driver = webdriver.Chrome()
+    driver.get(URL)
+    assert driver.title == "Интернет-магазин METRO: доставка продуктов на дом от 30 минут"
+    driver.quit()
+    
+def test_adress():
+    driver = webdriver.Chrome()
+    driver.get(URL)
+    element_selector_store = driver.find_element(By.CLASS_NAME, "header-address__receive-address")
+    assert element_selector_store.text == "Москва, Ленинградское ш., 71Г"
+    driver.quit()
+    
+def test_catalog_button():
+    driver = webdriver.Chrome()
+    driver.get(URL)
+    element_catalog = driver.find_element(By.CLASS_NAME, "header-button-catalog__text")
+    assert element_catalog
+    driver.quit()
+    
+def test_search_button():
+    driver = webdriver.Chrome()
+    driver.get(URL)
+    element_search = driver.find_element(By.CLASS_NAME, "search-bar__button")
+    assert element_search
+    driver.quit()
+    
+def test_banner():
+    driver = webdriver.Chrome()
+    driver.get(URL)
+    element_banner = driver.find_element(By.CLASS_NAME, "promobanners-slider-item")
+    assert element_banner
+    driver.quit()
+    
+def test_horizont_category():
+    driver = webdriver.Chrome()
+    driver.get(URL)
+    element_horizont_category = driver.find_element(By.CLASS_NAME, "header-categories__content")
+    assert element_horizont_category
+    driver.quit()
+    
+def test_popular_category():
+    driver = webdriver.Chrome()
+    driver.get(URL)
+    element_popular_category = driver.find_element(By.CLASS_NAME, "gf-hp-categories")
+    assert "Популярные категории" in element_popular_category.text
+    driver.quit()
+    
+# def test_account(): - не представляется возможным выполнить т.к. происходит бесконечная загрузка.
+#     driver = webdriver.Chrome()
+#     driver.get(URL)
+#     element_account = driver.find_element(By.CLASS_NAME, "header-main__account-title").text
+#     assert "Войти" in element_account
+
+
+    # driver.quit()
